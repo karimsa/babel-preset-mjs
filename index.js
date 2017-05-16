@@ -8,6 +8,10 @@
 require('babel-register')
 
 module.exports = {
+  presets: [
+    'es2015'
+  ],
+
   plugins: [
     require('./lib/plugin.js').default
   ]
