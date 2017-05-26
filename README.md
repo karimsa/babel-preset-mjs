@@ -16,7 +16,7 @@ Babel preset to transpile JS to restricted
 | No getters, setters, `valueOf`. | **Not solved** |
 | No `==` or `!=`, only `===` and `!==`. | All uses of `==` are transpiled to a manually evaluated loose equals.  |
 | `load()` is used to load external JS, not very standardized and pollutes the global scope. | **Not solved** |
-| No support for asynchronous behavior. All code is blocking. | **Not solved** |
+| No `setTimeout()` and `setInterval()` API. | Polyfilled using `api_timer.js`. |
 
 ## Usage
 
