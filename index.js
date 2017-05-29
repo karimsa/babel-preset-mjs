@@ -5,8 +5,6 @@
  * Copyright (C) 2017 Karim Alibhai.
  */
 
-require('babel-register')
-
 module.exports = {
   presets: [
     'es2015'

@@ -1,9 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.exit = exit;
 /**
  * lib/transforms/VariableDeclaration.js - babel-preset-mjs
  * 
@@ -11,9 +5,9 @@ exports.exit = exit;
  * Copyright (C) 2017 Karim Alibhai.
  */
 
-function exit(path, _, t) {
+export function exit(path, _, t) {
   // 'var' is not supported in mjs
   if (path.node.kind === 'var') {
-    path.node.kind = 'let';
+    path.node.kind = 'let'
   }
 }
