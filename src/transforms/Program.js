@@ -159,7 +159,11 @@ export function exit(path, state, t) {
     path.unshiftContainer('body', createPolyfill(polyfills, [
       globals.indexOf('setTimeout') !== -1 || globals.indexOf('setInterval') !== -1 ? 'api_timer.js' : null
     ].filter(Boolean), {
-      CONSOLE_METHODS: t.arrayExpression(state.console.map(method => t.stringLiteral(method)))
+      CONSOLE_METHODS: t.arrayExpression(
+        state.console
+          .filter((m, i, s) => s.indexOf(m) === i)
+          .map(method => t.stringLiteral(method))
+      )
     }))
   }
 }
