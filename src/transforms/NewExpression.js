@@ -8,7 +8,7 @@
 const template = require('babel-template')(`
   (function () {
     let OBJECT = Object.create(CLASS.prototype)
-    return CLASS.call(OBJECT, ARGUMENTS)
+    return CLASS.call(OBJECT, ARGUMENTS) || OBJECT
   }())
 `)
 
