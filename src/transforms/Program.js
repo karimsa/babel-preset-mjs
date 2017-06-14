@@ -6,20 +6,18 @@
  */
 
 const createPolyfill = (polyfills, dependencies, vars) => require('babel-template')(`
-  (function (global) {
-    ${dependencies.map(dep => `load('${dep}')`).join(';')};
+  ${dependencies.map(dep => `load('${dep}')`).join(';')};
 
-    ${polyfills.join(';')}
-  }(this.global || this.window || this))
+  ${polyfills.join(';')}
 `)(vars)
 
 // console polyfill: push all console methods to
 // print()
 const consolePolyfill = `
-  global.console = global.console || {}
+  const console = {}
 
   ;CONSOLE_METHODS.map(method => {
-    global.console[method] = function (msg) {
+    console[method] = function (msg) {
       // TODO: use util.format() to process msg
       print(\`[\${method.toUpperCase()}] \${msg}\`)
     }
@@ -30,10 +28,10 @@ const consolePolyfill = `
 // through sync functions
 const tryCatchFinallyPolyfill = `
   // ensure error is being thrown
-  global.throwish = error => (error instanceof Error ? error : new Error(error))
+  const throwish = error => (error instanceof Error ? error : new Error(error))
 
   // act as a try/catch/finally
-  global.tryish = (tryBlock, catchBlock, finallyBlock) => {
+  const tryish = (tryBlock, catchBlock, finallyBlock) => {
     let tryReturn = tryBlock()
 
     // noopify
@@ -59,7 +57,7 @@ const tryCatchFinallyPolyfill = `
 // the table at:
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Equality_comparisons_and_sameness
 const looseEqualsPolyfill = `
-  global.looseEquals = (a, b) => {
+  const looseEquals = (a, b) => {
     const types = [a, b].map(c => {
       if (c === undefined || c === null) return 'nil'
       return typeof c
@@ -95,7 +93,7 @@ const looseEqualsPolyfill = `
 
 // function constructor polyfill: makes it work with eval
 const functionPolyfill = `
-  global.Function = function () {
+  const Function = function () {
     var args = [].slice.call(arguments)
       , body = args[args.length - 1]
     
@@ -107,11 +105,11 @@ const functionPolyfill = `
 
 // timers polyfill: add global timer functions using api_timer.js
 const setTimeoutPolyfill = `
-  global.setTimeout = (fn, timeout) => {
+  const setTimeout = (fn, timeout) => {
     Timer.set(timeout, false, fn, null)
   }
 `, setIntervalPolyfill = `
-  global.setInterval = (fn, timeout) => {
+  const setInterval = (fn, timeout) => {
     Timer.set(timeout, true, fn, null)
   }
 `
