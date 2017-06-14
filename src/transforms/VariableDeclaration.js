@@ -6,8 +6,6 @@
  */
 
 export function exit(path, _, t) {
-  // 'var' is not supported in mjs
-  if (path.node.kind === 'var') {
-    path.node.kind = 'let'
-  }
+  // only 'let' is supported by mjs
+  path.node.kind = 'let'
 }
